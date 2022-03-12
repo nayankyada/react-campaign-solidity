@@ -1,6 +1,5 @@
 import web3 from "./web3";
 import CampaignFactory from "./build/CampaignFactory.json";
-console.log(JSON.parse(JSON.stringify(CampaignFactory["CampaignFactory"].abi)));
 
 // here i have deploy contract using remix and used abi from remix and address of contract
 const instance = new web3.eth.Contract(
@@ -51,6 +50,6 @@ const instance = new web3.eth.Contract(
       type: "function",
     },
   ],
-  "0x8E0e2cf80F2728E36AD25B18435CCd81770Eed0F"
+  "0x2F04c1306B29BC99545B039fDdD54A9020A3e71F"
 );
 export default instance;

@@ -4,16 +4,9 @@
 /node_modules
 /.pnp
 .pnp.js
-<<<<<<< HEAD
 # testing
 /coverage
 /.next
-=======
-
-# testing
-/coverage
-
->>>>>>> 495d8d6168e1e07c6c860905a73c2918d4c50a99
 # production
 /build
 
