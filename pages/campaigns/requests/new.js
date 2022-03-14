@@ -54,7 +54,9 @@ function RequestNew(props) {
         setIsLoading(false);
         Router.pushRoute(`/campaigns/${props.address}/requests`)
         console.log("contractaddress --- ", receipt);
-      });
+      }).catch(e => {
+        console.log(e)
+      })
   };
   return (
     <Layout>

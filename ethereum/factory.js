@@ -50,6 +50,6 @@ const instance = new web3.eth.Contract(
       type: "function",
     },
   ],
-  "0x2F04c1306B29BC99545B039fDdD54A9020A3e71F"
+  "0x6BCcc3F7A21B3079Eb848c21F9C0c87B449f2F33"
 );
 export default instance;

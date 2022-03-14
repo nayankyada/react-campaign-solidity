@@ -1,16 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Layout from "../../components/Layout";
 import "semantic-ui-css/semantic.min.css";
-import {
-  Button,
-  Card,
-  Form,
-  Input,
-  Message,
-} from "semantic-ui-react";
+import { Button, Card, Form, Input, Message } from "semantic-ui-react";
 import factory from "../../ethereum/factory";
 import web3 from "../../ethereum/web3";
-import  {Router}  from "../../routes"
+import { Router } from "../../routes";
 function Index() {
   const [minimumContribution, setMinimumContribution] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
@@ -41,7 +35,7 @@ function Index() {
       .once("receipt", function (receipt) {
         console.log("receipt --- ", receipt);
       })
-     
+
       .on("error", function (error) {
         setIsLoading(false);
         setErrorMsg(error.message);
@@ -54,9 +48,10 @@ function Index() {
       .then(function (receipt) {
         setIsLoading(false);
         renderCampaigns();
-        Router.pushRoute("/")
+        Router.pushRoute("/");
         console.log("contractaddress --- ", receipt);
-      });
+      })
+      .catch((er) => console.log(er));
   };
   useEffect(() => {
     renderCampaigns();
@@ -86,7 +81,7 @@ function Index() {
       )}
       <Form onSubmit={createCampaign}>
         <Form.Field>
-          <label>First Name</label>
+          <label>Minimum Wei To Contribute Into Campaign</label>
           <Input
             type="number"
             label="wei"

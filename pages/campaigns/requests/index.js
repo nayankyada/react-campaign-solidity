@@ -1,5 +1,5 @@
-import React from "react";
-import { Button, Table } from "semantic-ui-react";
+import React, { useState, useEffect } from "react";
+import { Button, Message, Table } from "semantic-ui-react";
 import Layout from "../../../components/Layout";
 import { Link } from "../../../routes";
 import campaign from "../../../ethereum/campaign";
@@ -14,18 +14,45 @@ RequestIndex.getInitialProps = async (ctx) => {
       .fill()
       .map((element, index) => campaign(address).methods.requests(index).call())
   );
-  console.log("All Requests",requests);
-  return { address, requests, requestCount };
+  const approversCount = await campaign(address)
+    .methods.approversCount()
+    .call();
+  console.log("All Requests", requests);
+  return { address, requests, requestCount, approversCount };
 };
 function RequestIndex(props) {
+  const [isError, setIsError] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
+  const [allRequests, setAllRequests] = useState(props.requests);
+
+  const getAllRequest = async () => {
+    const requestCount = await campaign(props.address)
+      .methods.getRequestsCount()
+      .call();
+    const requests = await Promise.all(
+      Array(parseInt(requestCount))
+        .fill()
+        .map((element, index) =>
+          campaign(props.address).methods.requests(index).call()
+        )
+    );
+    setAllRequests(requests);
+  };
+
   return (
     <Layout>
       <h3>Request</h3>
       <Link route={`/campaigns/${props.address}/requests/new`}>
         <a>
-          <Button primary>Add Request</Button>
+          <Button primary floated="right" style={{marginBottom:"1rem"}}>Add Request</Button>
         </a>
       </Link>
+      {isError && (
+        <Message negative>
+          <Message.Header>Oops!</Message.Header>
+          <p style={{overflow:"scroll"}}>{errorMsg}</p>
+        </Message>
+      )}
       <Table>
         <Table.Header>
           <Table.Row>
@@ -39,11 +66,21 @@ function RequestIndex(props) {
           </Table.Row>
         </Table.Header>
         <Table.Body>
-          {props.requests.map((req,index) => (
-            <RequestRow data={req} index={index}/>
+          {allRequests.map((req, index) => (
+            <RequestRow
+              key={index}
+              data={req}
+              index={index}
+              approversCount={props.approversCount}
+              address={props.address}
+              setErrorMsg={setErrorMsg}
+              setIsError={setIsError}
+              getAllRequest={getAllRequest}
+            />
           ))}
         </Table.Body>
       </Table>
+      <div>Found {allRequests.length} requests.</div>
     </Layout>
   );
 }

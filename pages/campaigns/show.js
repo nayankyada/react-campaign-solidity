@@ -13,7 +13,6 @@ function Address(props) {
   const getSummary = async () => {
     const address = props.address;
     let summary = await campaign(address).methods.getSummary().call();
-    console.log(summary);
     const items = [
       {
         header: summary[4],
@@ -58,7 +57,7 @@ function Address(props) {
             {items.length > 0 ? <Card.Group items={items}></Card.Group> : ""}
           </Grid.Column>
           <Grid.Column width={4}>
-            <ContributeForm address={props.address} getSummary={getSummary} />
+            <ContributeForm  address={props.address} getSummary={getSummary} />
           </Grid.Column>
         </Grid.Row>
         <Grid.Row width12>
